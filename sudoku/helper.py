@@ -30,3 +30,13 @@ def conv_framelist(df:pd.DataFrame, colndx:int = 0, conv:bool=False, batch_size:
         print('saving chunk')
 
         data.to_parquet(os.path.join('data', 'puzzles', f'puzzle-{i:07}.parquet'))
+
+def generate_dumby_data():
+    """Generates all possible values for sudoku solver labels
+    shape should be (batch, 729) after one hot encoding
+    
+    returns: pandas dataframe of size 9x81 such that every label value is accounted for
+    """
+    return pd.DataFrame(
+        [[j for i in range(81)] for j in range(10)]
+    )
