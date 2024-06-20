@@ -5,20 +5,28 @@ import torch
 from torch import nn
 from torch.utils.data import DataLoader
 
-from sklearn.model_selection import train_test_split
-
 from sudoku.classes.ConvNN import ConvNN
 from sudoku.classes.SudokuDataset import SudokuDataset
+from sudoku.classes.LabelEncoder import LabelEncoder
 
+from sudoku.helper import reshape_2d
 
 data_path = os.path.join('data', 'puzzles')
+data_pandas = pd.read_parquet(
+    os.path.join(data_path, 'puzzles_3m.parquet')
+)
+solution_pandas = pd.read_parquet(
+    os.path.join(data_path, 'solutions_3m.parquet')
+)
 
-data_pandas = pd.concat([
-    pd.read_parquet(os.path.join(data_path, 'puzzles_3m.parquet')),
-    pd.read_parquet(os.path.join(data_path, 'solutions_3m.parquet'))
-    ],
-    axis=1,
-).astype('int32')
+# too big to do alone, in the immediate 
+# le = LabelEncoder(solution_pandas)
+# solution_pandas = le.encode_labels()
+# print(solution_pandas)
+
+data_pandas = reshape_2d(data_pandas)
+# solution_pandas = reshape_2d(solution_pandas)
+
 # split data
 
 data_pandas = data_pandas.iloc[0:10 ,:]
@@ -32,6 +40,7 @@ testing_data = DataLoader(
     batch_size=batch_size
 )
 
+
 model = ConvNN().to(device)
 loss_fn = nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=1e-1)
@@ -41,17 +50,11 @@ model.train()
 for batch, (X, y) in enumerate(testing_data):
     X, y = X.to(device), y.to(device)
     optimizer.zero_grad()
-    # might help to do this before
-    # reshape X to be in the 2d shape of a sudoku puzzle
-    # # reshape output to match that of one hot encoded labels
+
     pred = model(X.view(-1, 9, 9)).view(-1, 81, 10)
-    print(pred[0])
-    # print(pred.view(-1, 81, 9).shape)
-    # print(pred.view(-1, 81, 9)[0])
+    
+    loss = loss_fn(
+        pred,
+    )
 
     break
-
-
-    # print(batch)
-    # print(f'x:{X}')
-    # print(f'y:{y}')
