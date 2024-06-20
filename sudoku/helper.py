@@ -32,6 +32,7 @@ def conv_framelist(df:pd.DataFrame, colndx:int = 0, conv:bool=False, batch_size:
         data.to_parquet(os.path.join('data', 'puzzles', f'puzzle-{i:07}.parquet'))
 
 def generate_dumby_data():
+    # this is wrong change!
     """Generates all possible values for sudoku solver labels
     shape should be (batch, 729) after one hot encoding
     
@@ -40,3 +41,11 @@ def generate_dumby_data():
     return pd.DataFrame(
         [[j for i in range(81)] for j in range(10)]
     )
+
+def reshape_2d(data:pd.DataFrame) -> np.array:
+    """reshapes linear sudoku into 2d for convolution"""
+    exp = np.expand_dims(
+        data.to_numpy(), 
+        axis=0
+    )
+    return exp.reshape(-1, 9, 9)

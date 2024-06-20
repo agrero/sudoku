@@ -15,4 +15,3 @@ data_pandas = pd.read_parquet(
 ).iloc[0:10, :]
 
 le = LabelEncoder(solutions_pandas)
-print(le.encode_labels().shape)

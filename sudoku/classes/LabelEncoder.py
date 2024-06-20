@@ -8,11 +8,12 @@ class LabelEncoder(OneHotEncoder):
 
         self.labels = labels
 
-    def encode_labels(self):
+    def encode_labels(self) -> pd.DataFrame:
         """encode labels with dumby data in order to maintain shape
+        
         
         returns: one hot encoded labels with the dumby data removed
         """
         return self.fit_transform(
             pd.concat([self.labels, generate_dumby_data()], axis=0)
-        )[:-10]
+        )[:-10].reshape(len(self.labels), 81, 10)
