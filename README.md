@@ -117,7 +117,39 @@ This is a placeholder
 #### Potential Issues
 This is a placeholder
 
----
+------------------ 
+
+## Data Efficiency
+Might be more efficient to load from disk directly.
+
+### Needs
+    1. Start Training
+        - Fix Data Reading
+    
+### Notes
+Not really important
+
+#### Testing Pseudocode
+```python
+batch_sizes = [1,2,3,4,5]
+for i in range(batch_sizes):
+    %%timeit
+    run("model with disk loading", batch_size)
+
+for i in range(batch_sizes):
+    %%timeit
+    run("model with all data loaded", bath_size)
+```
+#### Proposed Fixes
+1. Method of directly loading from disk
+2. Method for testing the speed of both 
+    - Really just seeing which can complete N epochs faster over a span of M batch_sizes
+
+
+#### Potential Issues
+lol theres a few
+
+------------------
 
 # To Do Format!
 Below is the format you should follow when adding to this document.
