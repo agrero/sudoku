@@ -1,47 +1,9 @@
 # Sudoku To Do
 
-## Fix Data Reading
-
-### Dependent On
-1. None
-
-### Notes
-Notes for fixing data reading
-#### SudokuDataset 
-
-##### Original SudokuDataset
-```py
-
-class SudokuDataset(Dataset):
-    def __init__(self, data) -> None:
-
-        self.data = data
-        self.labels = labels
-        super().__init__()
-
-    def __len__(self):
-        return len(self.data)
-
-    def __getitem__(self, index):
-        data = self.data[index, :81].astype('float32')
-
-        return data
-```
-
-##### Proposed Fixes
-1. Add labels as an extra input
-2. Change **\_\_getitem\_\_** indexing to take all columns instead of just 81
-3. Labels indexing should just be the same as the data
-
-##### Potential Later Issues
-1. Deciding to have one hot encoded labels may require some datatype finagling such that it works with categorical crossentropy
-
---- 
-
 ## Start Training
 
 ### Dependent On
-1. Fix Data Reading
+- ~~Fix Data Reading~~ 
 
 ### Notes
 - Most likely need to modify training function to work with pre-encoded labels. 
@@ -72,6 +34,7 @@ def train(dataloader, model, loss_fn, optimizer, batch_print=100, device='cuda')
             loss, current = loss.item(), (batch+1) * len(X)
             print(f'loss: {loss:>7f} [{current:<5d}/{size:>5d}]')
 ```
+
 #### Proposed Fixes
 1. I don't think we really need the size listed here, waste o' memory
 2. Remove the y alterations
@@ -93,7 +56,7 @@ def train(dataloader, model, loss_fn, optimizer, batch_print=100, device='cuda')
 #### Current Training Function (In Progress)
 This is more of a placeholder for me to try and figure out how to write these the best
 ```
-{{< readfile file="/home/alex/coding-projects/sudoku/hello_world.py" >}}
+{< readfile file="/home/alex/coding-projects/sudoku/hello_world.py" >}
 ```
 
 ---
@@ -101,8 +64,8 @@ This is more of a placeholder for me to try and figure out how to write these th
 ## Hyperparameter Optimzation
 
 ### Needs
-    1. Start Training
-        - Fix Data Reading
+1. Start Training
+    - ~~Fix Data Reading~~
     
 ### Notes
 This is a placeholder
@@ -181,3 +144,64 @@ print('in a box here like this!')
 
 # Completed! 
 Finished sections should go here!
+
+## Fix Data Reading
+
+### Dependent On
+1. None
+
+### Notes
+Notes for fixing data reading
+#### SudokuDataset 
+
+##### Original SudokuDataset
+```py
+
+class SudokuDataset(Dataset):
+    def __init__(self, data) -> None:
+
+        self.data = data
+        self.labels = labels
+        super().__init__()
+
+    def __len__(self):
+        return len(self.data)
+
+    def __getitem__(self, index):
+        data = self.data[index, :81].astype('float32')
+
+        return data
+```
+##### Proposed Fixes
+1. Add labels as an extra input
+2. Change **\_\_getitem\_\_** indexing to take all columns instead of just 81
+3. Labels indexing should just be the same as the data
+
+##### Potential Later Issues
+1. Deciding to have one hot encoded labels may require some datatype finagling such that it works with categorical crossentropy
+
+##### New SudokuDataset
+```python
+class SudokuDataset(Dataset):
+    def __init__(self, data, labels) -> None:
+
+        self.data = data
+        self.labels = labels
+        super().__init__()
+
+    def __len__(self):
+        return len(self.data)
+
+    def __getitem__(self, index):
+        # may want to encode the labels right here
+        # inheriting the label encoder and just doing the transform
+        # # Be warned as the label encoder is usually for dataframes
+        # # but here we are moreso worried about 
+        label = self.data[index].astype('int32')
+        data = self.data[index].astype('float32')
+
+        return data, label
+```
+
+
+--- 
