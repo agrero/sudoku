@@ -11,7 +11,11 @@ class SudokuDataset(Dataset):
         return len(self.data)
 
     def __getitem__(self, index):
-        label = self.data[index, 81:].astype('int64')
-        data = self.data[index, :81].astype('float32')
+        # may want to encode the labels right here
+        # inheriting the label encoder and just doing the transform
+        # # Be warned as the label encoder is usually for dataframes
+        # # but here we are moreso worried about 
+        label = self.data[index].astype('int32')
+        data = self.data[index].astype('float32')
 
         return data, label
