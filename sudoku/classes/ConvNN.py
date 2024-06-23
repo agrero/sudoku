@@ -3,7 +3,7 @@ import torch
 import torch.nn as nn
 
 class ConvNN(nn.Module):
-    def __init__(self):
+    def __init__(self, n_features=9):
         super().__init__()
         
         self.conv2d = nn.Sequential(
@@ -21,7 +21,7 @@ class ConvNN(nn.Module):
             nn.ReLU(),
             nn.Linear(4096, 4096),
             nn.ReLU(),
-            nn.Linear(4096, 81 * 10), # 81 tiles 10 possible outcomes including 0
+            nn.Linear(4096, 81 * n_features), # 81 tiles 9 possible outcomes including 0
             nn.ReLU()
         )
 

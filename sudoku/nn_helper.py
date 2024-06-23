@@ -8,7 +8,6 @@ def train(dataloader, model, loss_fn, optimizer, batch_print=100, device='cuda')
     for batch, (X, y) in enumerate(dataloader):
         optimizer.zero_grad()
         X, y = X.to(device), y.to(device)
-        y = y - 1 # accounting for index 0
 
         pred = model(X)
         pred = pred.view(-1, 81, 9) # reshape to [batch, 81, 9]

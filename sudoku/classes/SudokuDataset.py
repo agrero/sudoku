@@ -1,12 +1,12 @@
 from torch.utils.data import Dataset
+from sudoku.classes.LabelEncoder import LabelEncoder
 
 class SudokuDataset(Dataset):
     def __init__(self, data, labels) -> None:
 
-        self.data = data
+        self.data = data     
         self.labels = labels
         super().__init__()
-
     def __len__(self):
         return len(self.data)
 
@@ -15,7 +15,8 @@ class SudokuDataset(Dataset):
         # inheriting the label encoder and just doing the transform
         # # Be warned as the label encoder is usually for dataframes
         # # but here we are moreso worried about 
-        label = self.data[index].astype('int32')
+        label = self.labels[index].astype('int32')
+        label = LabelEncoder(label).encode_numpy_labels()
         data = self.data[index].astype('float32')
-
+        
         return data, label
