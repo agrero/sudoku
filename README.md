@@ -1,83 +1,16 @@
 # Sudoku To Do
 
-## Start Training
 
-### Dependent On
-- ~~Fix Data Reading~~ 
-
-### Notes
-- Most likely need to modify training function to work with pre-encoded labels. 
-- In the future I would also like to implement a trainer class that inherits from the dataset class. 
-- I'm 99% sure <mark>pytorch has its own trainer class</mark>, so using that might be more effective for learning and efficiency. 
-- I'm unsure if using the pytorch trainer class is the best option. May get more versatility and readability with a simple custom class.
-- I think we go back to only having 9 features
-
-#### Original Training Function
-```python
-def train(dataloader, model, loss_fn, optimizer, batch_print=100, device='cuda'):
-
-    size = len(dataloader.dataset)
-    model.train()
-
-    for batch, (X, y) in enumerate(dataloader):
-        optimizer.zero_grad()
-        X, y = X.to(device), y.to(device)
-        y = y - 1 # accounting for index 0
-
-        pred = model(X)
-        pred = pred.view(-1, 81, 9) # reshape to [batch,81,9]
-
-        loss = loss_fn(pred.permute(0, 2, 1), y) # Permute to [batch,9,81]
-        loss.backward()
-        optimizer.step()
-
-        if batch % batch_print == 0:
-            loss, current = loss.item(), (batch+1) * len(X)
-            print(f'loss: {loss:>7f} [{current:<5d}/{size:>5d}]')
-```
-
-#### Proposed Fixes
-1. I don't think we really need the size listed here, waste o' memory
-2. Remove the y alterations
-3. The Data should be pre-reshaped to (batch, 10, 81)
-    - This allows us to keep 0 in there. It should learn pretty quick that 0 is never the right answer. 
-        - This may result in problems when training as it adds an extra n parameters
-4. The reshaping question
-    - Three options
-        1. No reshaping at all in training
-            - Best possible option
-            - ~~Labels should be preshaped and predictions should be reshaped as part of their forward function~~
-                - I get an extra dimension doing this in the \_\_getitem\_\_ attribute (batch,1,81,n_features). <mark>Calling it in the forward method with how we have to concat the dummy numbers is the problem.<mark/>  
-                - <mark> If we could encode variables without the dummy numbers this would work.<mark/>
-
-        2. Encode the labels as a part of the training function.
-            - Decreases reusability of the training function which is suboptimal
-            - It does confirmed work
-            - Limits batch size as encoding the labels is EXPENSIVE
-
-        3. Make a lazy encode method so I can just pre-encode all of this. *
-            - Encode in batches and store as like an int16
-
-
-#### Potential Issues
-I really really really don't want to encode these as part of the training function
-
-#### Current Training Function (In Progress)
-This is more of a placeholder for me to try and figure out how to write these the best
-```
-{< readfile file="/home/alex/coding-projects/sudoku/hello_world.py" >}
-```
-
----
 
 ## Hyperparameter Optimzation
 
 ### Needs
-1. Start Training
+1. ~~Start Training~~
     - ~~Fix Data Reading~~
     
 ### Notes
-This is a placeholder
+- The paper we are working off of uses 15 conv layers
+- Maybe watch some videos
 
 #### Hyperparemeter Optimization Psuedocode
 ```
@@ -214,3 +147,72 @@ class SudokuDataset(Dataset):
 
 
 --- 
+## Start Training
+
+### Dependent On
+- ~~Fix Data Reading~~ 
+
+### Notes
+- Most likely need to modify training function to work with pre-encoded labels. 
+- In the future I would also like to implement a trainer class that inherits from the dataset class. 
+- I'm 99% sure <mark>pytorch has its own trainer class</mark>, so using that might be more effective for learning and efficiency. 
+- I'm unsure if using the pytorch trainer class is the best option. May get more versatility and readability with a simple custom class.
+- I think we go back to only having 9 features
+
+#### Original Training Function
+```python
+def train(dataloader, model, loss_fn, optimizer, batch_print=100, device='cuda'):
+
+    size = len(dataloader.dataset)
+    model.train()
+
+    for batch, (X, y) in enumerate(dataloader):
+        optimizer.zero_grad()
+        X, y = X.to(device), y.to(device)
+        y = y - 1 # accounting for index 0
+
+        pred = model(X)
+        pred = pred.view(-1, 81, 9) # reshape to [batch,81,9]
+
+        loss = loss_fn(pred.permute(0, 2, 1), y) # Permute to [batch,9,81]
+        loss.backward()
+        optimizer.step()
+
+        if batch % batch_print == 0:
+            loss, current = loss.item(), (batch+1) * len(X)
+            print(f'loss: {loss:>7f} [{current:<5d}/{size:>5d}]')
+```
+
+#### Proposed Fixes
+1. I don't think we really need the size listed here, waste o' memory
+2. Remove the y alterations
+3. The Data should be pre-reshaped to (batch, 10, 81)
+    - This allows us to keep 0 in there. It should learn pretty quick that 0 is never the right answer. 
+        - This may result in problems when training as it adds an extra n parameters
+4. The reshaping question
+    - Three options
+        1. No reshaping at all in training
+            - Best possible option
+            - ~~Labels should be preshaped and predictions should be reshaped as part of their forward function~~
+                - I get an extra dimension doing this in the \_\_getitem\_\_ attribute (batch,1,81,n_features). <mark>Calling it in the forward method with how we have to concat the dummy numbers is the problem.<mark/>  
+                - <mark> If we could encode variables without the dummy numbers this would work.<mark/>
+
+        2. Encode the labels as a part of the training function.
+            - Decreases reusability of the training function which is suboptimal
+            - It does confirmed work
+            - Limits batch size as encoding the labels is EXPENSIVE
+
+        3. Make a lazy encode method so I can just pre-encode all of this. *
+            - Encode in batches and store as like an int16
+
+
+#### Potential Issues
+I really really really don't want to encode these as part of the training function
+
+#### Current Training Function (In Progress)
+This is more of a placeholder for me to try and figure out how to write these the best
+```
+{< readfile file="/home/alex/coding-projects/sudoku/hello_world.py" >}
+```
+
+---
