@@ -17,7 +17,7 @@ class ConvNN(nn.Module):
             nn.MaxPool2d((2,2))
         )
         self.fc = nn.Sequential(
-            nn.Linear(36, 4096),
+            nn.Linear(360, 4096),
             nn.ReLU(),
             nn.Linear(4096, 4096),
             nn.ReLU(),
@@ -26,11 +26,14 @@ class ConvNN(nn.Module):
         )
 
     def forward(self, x):
-        x = self.conv2d(x)
+        x = self.conv2d(x.view(-1,9,9).unsqueeze(1)) # unsqueeze 1 to add the channels
         x = torch.flatten(x, 1) # flatten all except batch
-        x = self.fc(x)  
-        return x
-    
+        x = self.fc(x)
+        x = x.view(-1, 81, 9)
+        # print(x.shape)
+        # print(x[0].shape)
+        return x.type(torch.float) #torch.argmax(x, dim=2)
+    # WE JUST NEEDTO CHANGE THE DATATYPES AND THEN WE IN BB
 """
 In PyTorch, convolutional layers are defined as torch.nn.Conv2d, 
 there are 5 important arguments we need to know:
