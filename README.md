@@ -10,6 +10,7 @@
 - In the future I would also like to implement a trainer class that inherits from the dataset class. 
 - I'm 99% sure <mark>pytorch has its own trainer class</mark>, so using that might be more effective for learning and efficiency. 
 - I'm unsure if using the pytorch trainer class is the best option. May get more versatility and readability with a simple custom class.
+- I think we go back to only having 9 features
 
 #### Original Training Function
 ```python
@@ -42,16 +43,24 @@ def train(dataloader, model, loss_fn, optimizer, batch_print=100, device='cuda')
     - This allows us to keep 0 in there. It should learn pretty quick that 0 is never the right answer. 
         - This may result in problems when training as it adds an extra n parameters
 4. The reshaping question
-    - Two options
+    - Three options
         1. No reshaping at all in training
             - Best possible option
-            - Labels should be preshaped and predictions should be reshaped as part of their forward function
-        2. Reshaping is a parameter
-            - If shit becomes a pain just do this ```shape = (x, y, z) -> reshape(*shape)```
+            - ~~Labels should be preshaped and predictions should be reshaped as part of their forward function~~
+                - I get an extra dimension doing this in the \_\_getitem\_\_ attribute (batch,1,81,n_features). <mark>Calling it in the forward method with how we have to concat the dummy numbers is the problem.<mark/>  
+                - <mark> If we could encode variables without the dummy numbers this would work.<mark/>
+
+        2. Encode the labels as a part of the training function.
+            - Decreases reusability of the training function which is suboptimal
+            - It does confirmed work
+            - Limits batch size as encoding the labels is EXPENSIVE
+
+        3. Make a lazy encode method so I can just pre-encode all of this. *
+            - Encode in batches and store as like an int16
 
 
 #### Potential Issues
-1. There has to be a way that I can pre-call the data to the GPU so I don't have to do it here. 
+I really really really don't want to encode these as part of the training function
 
 #### Current Training Function (In Progress)
 This is more of a placeholder for me to try and figure out how to write these the best
