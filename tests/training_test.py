@@ -8,7 +8,6 @@ from torch.nn import CrossEntropyLoss
 from torch.optim import Adam
 
 from sudoku.classes.SudokuDataset import SudokuDataset
-from sudoku.classes.LabelEncoder import LabelEncoder
 from sudoku.classes.ConvNN import ConvNN
 
 # BEGIN

@@ -26,7 +26,8 @@ class ConvNN(nn.Module):
         )
 
     def forward(self, x):
-        x = self.conv2d(x.view(-1,9,9).unsqueeze(1)) # unsqueeze 1 to add the channels
+        x = self.conv2d(x.view(-1,9,9).unsqueeze(1))
+        x = self.conv2d(x) # unsqueeze 1 to add the channels
         x = torch.flatten(x, 1) # flatten all except batch
         x = self.fc(x)
         x = x.view(-1, 81, 9)
