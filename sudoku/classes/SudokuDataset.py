@@ -19,7 +19,7 @@ class SudokuDataset(Dataset):
         # # Be warned as the label encoder is usually for dataframes
         # # but here we are moreso worried about 
         label = self.labels[index]
-        label = LabelEncoder(label).encode_numpy_labels().astype('float32')
+        label = LabelEncoder(label).encode_labels().astype('float32')
         data = self.data[index].astype('float32')
         
         return data, label
