@@ -23,7 +23,7 @@ solutions = pd.read_parquet(
     os.path.join(data_path, 'solutions_3m.parquet')
 )
 
-train_size = train_size = int(0.3 * len(data))
+train_size = train_size = int(0.1 * len(data))
 
 # SPLIT DATA
 train_data, _ = train_test_split(
@@ -39,20 +39,37 @@ dataloader = DataLoader(
         train_data.to_numpy(),
         train_labels.to_numpy()
     ),
-    batch_size=1000
+    batch_size=500
 )
 
 # MODEL INSTANTIATION
 device = ('cuda' if cuda.is_available() else 'cpu')
 
-model = ConvNN().to(device)
+load = True
+
+
+model = ConvNN(
+    enc_sizes=[1, *[512 for i in range(15)]]
+).to(device)
+if load: 
+    model.load_state_dict(
+        torch.load(
+            os.path.join('data', 'models', 'model_current.pt')
+        )
+    )
 loss_fn = CrossEntropyLoss().to(device)
 optimizer = Adam(model.parameters(), lr=1e-2)
+epochs = 10
+for t in range(epochs):
+    print(f'Epoch {t+1}\n-----------')
+    train(
+        dataloader=dataloader,
+        model=model,
+        loss_fn=loss_fn,
+        optimizer=optimizer,
+        device=device
+    )
+model_path = os.path.join('data', 'models', 'model_current.pt')
+torch.save(model.state_dict(), model_path)
 
-train(
-    dataloader=dataloader,
-    model=model,
-    loss_fn=loss_fn,
-    optimizer=optimizer,
-    device=device
-)
+# a logger for training runs might be nice
