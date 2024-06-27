@@ -1,59 +1,52 @@
 # as taken from the Pytorch documentation
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 
 class ConvNN(nn.Module):
-    def __init__(self, n_features=9):
+    def __init__(self, enc_sizes):
         super().__init__()
         
-        self.conv2d = nn.Sequential(
+        self.conv2d = nn.Sequential(*[self.conv_block(in_f, out_f)
+                                      for in_f, out_f in zip(enc_sizes, enc_sizes[1:])])
+
+        self.fc = nn.Sequential(self.linear(enc_sizes[-1] * 81, 1028))
+
+        self.conv_out = nn.Sequential(
             nn.Conv2d(
-                in_channels=1,
-                out_channels=10,
-                kernel_size=(3,3),
-                padding=3
-            ),
+                in_channels = enc_sizes[-1], # enc_sizes[-1] of incoming convolutions
+                out_channels = 9, # probability outcome is 0-9 labels
+                kernel_size=1, # generate predictions for each
+            )
+        ) # out dim = (batch, class probability, sudoku pos x, sudoku pos y)
+
+    def linear(self, in_f, out_f):
+        return nn.Sequential(
+            nn.Linear(in_f, out_f),
             nn.ReLU(),
-            nn.MaxPool2d((2,2))
+            nn.Dropout(p=0.2),
+            nn.Linear(out_f, 81 * 9),
+            nn.ReLU()
         )
-        self.fc = nn.Sequential(
-            nn.Linear(360, 4096),
-            nn.ReLU(),
-            nn.Linear(4096, 4096),
-            nn.ReLU(),
-            nn.Linear(4096, 81 * n_features), # 81 tiles 9 possible outcomes including 0
+
+    def conv_block(self, in_f, out_f):
+        return nn.Sequential(
+            nn.Conv2d(
+                in_f, out_f, 
+                kernel_size=3, 
+                padding=1, 
+                stride=1,
+            ),
+            nn.BatchNorm2d(out_f),
             nn.ReLU()
         )
 
     def forward(self, x):
         x = self.conv2d(x.view(-1,9,9).unsqueeze(1))
-        x = self.conv2d(x) # unsqueeze 1 to add the channels
-        x = torch.flatten(x, 1) # flatten all except batch
-        x = self.fc(x)
-        x = x.view(-1, 81, 9)
-        # print(x.shape)
-        # print(x[0].shape)
-        return x.type(torch.float) #torch.argmax(x, dim=2)
-    # WE JUST NEEDTO CHANGE THE DATATYPES AND THEN WE IN BB
-"""
-In PyTorch, convolutional layers are defined as torch.nn.Conv2d, 
-there are 5 important arguments we need to know:
+        x = self.conv_out(x)
+        
+        x = torch.flatten(x, start_dim = 2)
+        x = torch.permute(x, dims=(0, 2, 1))
 
-    in_channels: how many features are we passing in. 
-    Our features are our colour bands, in greyscale, 
-    we have 1 feature, in colour, we have 3 channels.
-
-    out_channels: how many kernels do we want to use. 
-    Analogous to the number of hidden nodes in a hidden 
-    layer of a fully connected network.
-
-    kernel_size: the size of the kernel. 
-    Above we were using 3x3. 
-    Common sizes are 3x3, 5x5, 7x7.
-
-    stride: the “step-size” of the kernel.
-
-    padding: the number of pixels we should pad to the 
-    outside of the image so we can get edge pixels.
-
-"""
+        x = F.softmax(x, dim=2)
+        return x.type(torch.float) 
