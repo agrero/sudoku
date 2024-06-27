@@ -1,11 +1,10 @@
 from torch.utils.data import Dataset
 from sudoku.classes.LabelEncoder import LabelEncoder
 
-import torch
-
 class SudokuDataset(Dataset):
     def __init__(self, data, labels) -> None:
         super().__init__()
+
         self.data = data
         self.labels = labels
 
@@ -14,12 +13,10 @@ class SudokuDataset(Dataset):
         return len(self.data)
 
     def __getitem__(self, index):
-        # may want to encode the labels right here
-        # inheriting the label encoder and just doing the transform
-        # # Be warned as the label encoder is usually for dataframes
-        # # but here we are moreso worried about 
+
         label = self.labels[index]
         label = LabelEncoder(label).encode_labels().astype('float32')
+
         data = self.data[index].astype('float32')
         
         return data, label
