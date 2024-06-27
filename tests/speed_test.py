@@ -25,7 +25,7 @@ solutions = pd.read_parquet(
     os.path.join(data_path, 'solutions_3m.parquet')
 )
 
-train_size = train_size = int(0.07 * len(data))
+train_size = int(0.07 * len(data))
 
 # SPLIT DATA
 train_data, _ = train_test_split(
