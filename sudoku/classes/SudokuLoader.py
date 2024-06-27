@@ -3,12 +3,13 @@ from pandas import read_parquet
 from sklearn.model_selection import train_test_split
 
 class SudokuLoader():
+    """A class for loading SudokuDatasets for a variety of filetypes"""
     def __init__(self, data_path='', x_path='', y_path='') -> None:
         self.data_path = data_path
         self.x_path = x_path
         self.y_path = y_path
 
-    def load_xy_parquet(self, train_ratio:float=0.1):
+    def xy_parquet(self, train_ratio:float=0.1):
         """
         Load data and labels as parquet files.
         Split data using sklearn's train_test_split.

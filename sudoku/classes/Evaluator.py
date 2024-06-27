@@ -11,7 +11,7 @@ import torch
 # # 
 class Evaluator():
     def __init__(self):
-        super().__init__()
+        pass
 
     @torch.no_grad()
     def confusion_matrix(self, dataloader, model, device='cuda'):
@@ -24,6 +24,7 @@ class Evaluator():
         conf_matrix = np.zeros((9,9))
         
         for batch, (X, y) in enumerate(dataloader):
+            print(f'Progress: [{batch * dataloader.batch_size}/{len(dataloader.dataset)}]')
             X, y = X.to(device), y            
             
             # flatten preds/labels for confusion_matrix
@@ -41,9 +42,8 @@ class Evaluator():
                 y_true=y,
                 y_pred=pred
             )
-
-        # normalize and return
-        # conf_matrix /= np.linalg.norm(conf_matrix)
-  
+            
+            if batch >= 10:
+                break
         return conf_matrix
     

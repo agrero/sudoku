@@ -16,6 +16,5 @@ def train(dataloader, model, loss_fn, optimizer, device='cuda'):
         loss.backward()
         optimizer.step()
 
-        
         loss, current = loss.item(), (batch+1) * len(X)
         print(f'loss: {loss:>7f} [{current:<5d}/{len(dataloader.dataset):>5d}]')
