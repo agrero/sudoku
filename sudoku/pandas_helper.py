@@ -1,4 +1,4 @@
 import pandas as pd
 
-def filter_hilo(data, hi, lo):
-    return data[(data.index >= lo) & (data.index <= hi)]
+def hilo_thresh_feature(data, hi, lo, feature):
+    return data[(data.loc[:,feature] >= lo) & (data.loc[:,feature] <= hi)]
