@@ -1,5 +1,5 @@
 from sudoku.Board import Board
-from sudoku.Solver import Solver
+from sudoku.classes.Solver import Solver
 import numpy as np
 import random
 import os
