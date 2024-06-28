@@ -50,9 +50,36 @@ for i in range(batch_sizes):
 2. Method for testing the speed of both 
     - Really just seeing which can complete N epochs faster over a span of M batch_sizes
 
-
 #### Potential Issues
 lol theres a few
+
+
+## Implement a Real Testing Framework
+
+### Needs
+1. None
+### Notes
+Figure out what framework we should use and convert our current 'tests' folder such that it matches said framework
+
+#### Testing Format
+```python
+print('I will make a general formatted thing here when I find one') 
+```
+#### Proposed Fixes
+Tests to convert
+
+---
+
+1. convolution_test
+2. dataset_test
+3. encoding_test
+4. reshape_data_test
+5. sudoku_test
+6. training_test
+
+
+#### Potential Issues
+1. May need to reorganize where we are currently storing the tests.
 
 ------------------
 
