@@ -1,5 +1,6 @@
 from sudoku.classes.ConvNN import ConvNN
 from sklearn.metrics import confusion_matrix
+from sudoku.classes.Board import Board
 
 import numpy as np
 
@@ -43,7 +44,33 @@ class Evaluator():
                 y_pred=pred
             )
             
-            if batch >= 10:
-                break
+            # if batch >= 10:
+            #     break
         return conf_matrix
-    
+
+    def board_check(self, X, y):
+        """
+        checks X (batch, i) against y (batch, i)
+        returns tensor (batch) # of correct 
+        """
+        return torch.eq(X, y).sum(dim=1)
+
+    def validate_accuracy(self, dataloader, model, device='cuda'):
+        """Validate the Actual Accuracy of the Model playing Sudoku
+        
+        dataloader: dataloader responsible for validation data
+        model: pytorch model intaking and outputting encoded sudoku features
+        device: device for model
+        
+        returns: torch.tensor sum of the accuracy"""
+        model.eval()
+        acc = torch.zeros((1)).to(device)
+        for batch, (X, y) in enumerate(dataloader):
+            X, y = X.to(device), y.to(device)
+            acc += self.board_check(
+                X = torch.argmax(model(X), dim=2),
+                y = torch.argmax(y, dim=2)
+            ).sum() / X.size(0)    
+        acc /= 81 * (batch + 1)
+        print(f'Accuracy: {acc.item():0f}')
+        return acc

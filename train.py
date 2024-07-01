@@ -23,7 +23,7 @@ solutions = pd.read_parquet(
     os.path.join(data_path, 'solutions_3m.parquet')
 )
 
-train_size = train_size = int(0.1 * len(data))
+train_size = train_size = int(0.005 * len(data))
 
 # SPLIT DATA
 train_data, _ = train_test_split(
@@ -45,7 +45,7 @@ dataloader = DataLoader(
 # MODEL INSTANTIATION
 device = ('cuda' if cuda.is_available() else 'cpu')
 
-load = True
+load = False
 
 
 model = ConvNN(
@@ -58,8 +58,8 @@ if load:
         )
     )
 loss_fn = CrossEntropyLoss().to(device)
-optimizer = Adam(model.parameters(), lr=1e-2)
-epochs = 10
+optimizer = Adam(model.parameters(), lr=1e-1)
+epochs = 2
 for t in range(epochs):
     print(f'Epoch {t+1}\n-----------')
     train(
