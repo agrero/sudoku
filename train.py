@@ -9,7 +9,7 @@ from torch.optim import Adam
 
 from sudoku.classes.loader.SudokuDataset import SudokuDataset
 from sudoku.classes.nn.ConvNN import ConvNN
-from sudoku.nn_helper import train
+from sudoku.classes.nn.Trainer import Trainer
 
 from sklearn.model_selection import train_test_split
 
@@ -59,11 +59,12 @@ if load:
 
 loss_fn = CrossEntropyLoss().to(device)
 optimizer = Adam(model.parameters(), lr=1e-2)
+trainer = Trainer()
 
-epochs = 5
+epochs = 1
 for t in range(epochs):
     print(f'Epoch {t+1}\n-----------')
-    train(
+    trainer.train_norm(
         dataloader=dataloader,
         model=model,
         loss_fn=loss_fn,
