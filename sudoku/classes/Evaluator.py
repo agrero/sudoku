@@ -8,7 +8,7 @@ import torch
 # this should generate a confusion matrix of predicted vs actual labels
 # # this should use the forward function
 # # 
-class Evaluator():
+class Evaluator:
     def __init__(self):
         pass
 
@@ -62,7 +62,7 @@ class Evaluator():
         device: device for model
         
         returns: torch.tensor sum of the accuracy"""
-        
+
         model.eval()
         acc = torch.zeros((1)).to(device)
 
