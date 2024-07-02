@@ -1,4 +1,4 @@
-from sudoku.classes.Solver import Solver
+from sudoku.classes.solver.Solver import Solver
 from sudoku.classes.Board import Board
 
 import numpy as np

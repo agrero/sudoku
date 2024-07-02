@@ -4,8 +4,8 @@ import pandas as pd
 from torch import cuda
 from torch.utils.data import DataLoader
 
-from sudoku.classes.SudokuDataset import SudokuDataset
-from sudoku.classes.LabelEncoder import LabelEncoder
+from sudoku.classes.loader.SudokuDataset import SudokuDataset
+from sudoku.classes.labels.LabelEncoder import LabelEncoder
 
 # BEGIN
 

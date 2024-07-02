@@ -1,4 +1,4 @@
-from sudoku.classes.LabelValidator import LabelValidator
+from sudoku.classes.labels.LabelValidator import LabelValidator
 
 import os
 import pandas as pd

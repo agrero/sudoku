@@ -1,5 +1,5 @@
 from torch.utils.data import Dataset
-from sudoku.classes.LabelEncoder import LabelEncoder
+from sudoku.classes.labels.LabelEncoder import LabelEncoder
 
 class SudokuDataset(Dataset):
     def __init__(self, data, labels) -> None:

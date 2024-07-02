@@ -7,8 +7,8 @@ from torch.utils.data import DataLoader
 from torch.nn import CrossEntropyLoss
 from torch.optim import Adam
 
-from sudoku.classes.SudokuDataset import SudokuDataset
-from sudoku.classes.ConvNN import ConvNN
+from sudoku.classes.loader.SudokuDataset import SudokuDataset
+from sudoku.classes.nn.ConvNN import ConvNN
 from sudoku.nn_helper import train
 
 from sklearn.model_selection import train_test_split

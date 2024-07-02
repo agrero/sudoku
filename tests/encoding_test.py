@@ -1,7 +1,7 @@
 import os 
 import pandas as pd
 
-from sudoku.classes.LabelEncoder import LabelEncoder
+from sudoku.classes.labels.LabelEncoder import LabelEncoder
 
 
 data_path = os.path.join('data', 'puzzles')

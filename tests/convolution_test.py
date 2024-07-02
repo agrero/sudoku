@@ -5,9 +5,9 @@ import torch
 from torch import nn
 from torch.utils.data import DataLoader
 
-from sudoku.classes.ConvNN import ConvNN
-from sudoku.classes.SudokuDataset import SudokuDataset
-from sudoku.classes.LabelEncoder import LabelEncoder
+from sudoku.classes.nn.ConvNN import ConvNN
+from sudoku.classes.loader.SudokuDataset import SudokuDataset
+from sudoku.classes.labels.LabelEncoder import LabelEncoder
 
 from sudoku.helper import reshape_2d
 
