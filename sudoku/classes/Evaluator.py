@@ -18,9 +18,10 @@ class Evaluator():
     def confusion_matrix(self, dataloader, model, device='cuda'):
         """Generate a Confusion Matrix for all the data available in a 
         pytorch Dataloader class
+
+        # WE SHOULD MAKE THIS MORE LIKE BELOW
         
         returns -> np.darray containing the confusion matrix for sudoku classfication error"""
-
         # instantiate to be added to
         conf_matrix = np.zeros((9,9))
         
@@ -38,7 +39,6 @@ class Evaluator():
             y = torch.flatten(
                 torch.argmax(y, dim=2)
             ) 
-
             conf_matrix += confusion_matrix(
                 y_true=y,
                 y_pred=pred
@@ -55,6 +55,7 @@ class Evaluator():
         """
         return torch.eq(X, y).sum(dim=1)
 
+    @torch.no_grad()
     def validate_accuracy(self, dataloader, model, device='cuda'):
         """Validate the Actual Accuracy of the Model playing Sudoku
         
