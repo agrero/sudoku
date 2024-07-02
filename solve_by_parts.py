@@ -40,29 +40,22 @@ ev = Evaluator()
 model.eval()
 
 for batch, (X, y) in enumerate(train_data):
-    print(batch)
+    print(f'iteration {batch}')
     X, y = X.to(device), torch.argmax(y, dim=2).to(device)
-    for i in range(10):
-        print(f'iteration {batch}')
-        # get all incorrect values and set equal to 0
-        check = torch.eq(X, y)
-        for i in X.data.view(9,9):
-            print(i)
-        X[~check] = 0 
-        print('\nx post')
-        for i in X.data.view(9,9):
-            print(i)
+    for i in range(5000):
         
-        print('\ny')
-        for i in y.data.view(9,9):
-            print(i)
-        # print(check)
-        # print(check.sum(1))
-        X = torch.argmax(
-            model(X), 
+        # get all incorrect values and set equal to 0
+        check = torch.eq(X, y+1)
+        print(f'number correct {check.sum()}')        
+        print(f'incorrect no {X[~check].shape[0]}')
+        X[~check] = torch.argmax(
+            model(X),
             dim=2
-        ).to(torch.float32)
-        break
+        )[~check].to(dtype=torch.float32)
+        print(X)
+
+    print(y+1.)
+        
     break
 
 

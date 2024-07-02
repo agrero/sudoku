@@ -1,6 +1,4 @@
-from sudoku.classes.ConvNN import ConvNN
 from sklearn.metrics import confusion_matrix
-from sudoku.classes.Board import Board
 
 import numpy as np
 
@@ -64,14 +62,20 @@ class Evaluator():
         device: device for model
         
         returns: torch.tensor sum of the accuracy"""
+        
         model.eval()
         acc = torch.zeros((1)).to(device)
+
         for batch, (X, y) in enumerate(dataloader):
+
             X, y = X.to(device), y.to(device)
+
             acc += self.board_check(
                 X = torch.argmax(model(X), dim=2),
                 y = torch.argmax(y, dim=2)
             ).sum() / X.size(0)    
+
         acc /= 81 * (batch + 1)
+
         print(f'Accuracy: {acc.item():0f}')
         return acc
