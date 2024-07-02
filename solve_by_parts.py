@@ -39,20 +39,30 @@ model.load_state_dict(
 ev = Evaluator()
 model.eval()
 
+buffer = 5
+
 for batch, (X, y) in enumerate(train_data):
     print(f'iteration {batch}')
     X, y = X.to(device), torch.argmax(y, dim=2).to(device)
-    for i in range(5000):
-        
-        # get all incorrect values and set equal to 0
+    check_sum = torch.zeros(2).to(device)
+    print(check_sum)
+    guessing = True
+    while guessing:
+        print(f'iteration: {check_sum[1]}')
         check = torch.eq(X, y+1)
-        print(f'number correct {check.sum()}')        
-        print(f'incorrect no {X[~check].shape[0]}')
+
         X[~check] = torch.argmax(
             model(X),
             dim=2
         )[~check].to(dtype=torch.float32)
-        print(X)
+        check_sum[0] += check.sum()
+        check_sum[1] += 1.0
+        print(check_sum[0] / check_sum[1])
+        print((check.sum() - 1))
+        if ((check_sum[0] / check_sum[1]) > (check.sum() - 1.)) & (check_sum[1] > buffer):
+            print('shall not pass')
+            guessing=False
+            
 
     print(y+1.)
         
