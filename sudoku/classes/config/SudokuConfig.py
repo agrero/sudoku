@@ -6,8 +6,6 @@ class SudokuConfig(ConfigParser):
         for section in self.sections():
             print(section)
         
-        
-    
     def add_item(self, **kwargs):
         """
         Add an item to the config object for subsequent writing
