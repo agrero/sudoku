@@ -9,9 +9,11 @@ from torch.utils.data import DataLoader
 
 import os
 
+# part of config
 data_path = os.path.join('data', 'puzzles')
 model_path = os.path.join('data', 'models', 'model_current.pt')
 
+# ooooo config could auto read these in
 xtrain, xtest, ytrain, ytest = SudokuLoader(
     x_path=os.path.join(data_path, 'puzzles_3m.parquet'),
     y_path=os.path.join(data_path, 'solutions_3m.parquet')

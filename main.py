@@ -13,7 +13,6 @@ class SudokuMain(ArgumentParser, SudokuConfig):
 
         super().__init__(self)
 
-
     # these should probably go in a argparser wrapper
     def add_args(self):
         self.add_argument('-f' ,'--filepath')

@@ -2,35 +2,11 @@ from configparser import ConfigParser
 import os
 
 class SudokuConfig(ConfigParser):
-    def __init__(self, **kwargs) -> None:
-        super().__init__()
-        for key, value in kwargs.items():
-            setattr(self, key, value)
-
-        # changing this to **kwargs setattr()
-        # more orthogonal
-        # self.config_path = config_path
-
-    # how config is going to work
-    # # 1) read config will 
-        # .read(filepath)
-        # .sections()
-        # iterate over previous 
-        # config[i] = dictionary #
-    # # 2) write config will just take in dictionary of dictionaries
-        # where each outer dictionary will be what pertains to a class
-        # and there should be a training and testing variant for each. 
-        # these training and testing variants will be delineated by file
-
-    def read_config(self, verbose=False): # we should make this recursive
-        self.read(self.config_path)
+    def read_config(self, verbose=False):
         for section in self.sections():
-            if verbose: print(f'{section}')
-            for key in self[section]:
-                value = self[section][key] 
-                self[section][key] = value 
-                # can flip this to write
-                if verbose: print(f'{key} : {value}')
+            print(section)
+        
+        
     
     def add_item(self, **kwargs):
         """
