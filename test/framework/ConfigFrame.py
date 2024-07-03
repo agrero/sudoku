@@ -5,4 +5,5 @@ class ConfigFrame(SudokuConfig):
 
     def setUp(self):
         self.config_path = '/home/alex/coding-projects/sudoku/test.ini' # to be changed
+        print(self.config_path)
         self.read_config(verbose=True)

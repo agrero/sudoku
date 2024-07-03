@@ -1,4 +1,4 @@
-from sudoku.tests_package.UnitTest import UnitTest
+from sudoku.test_package.UnitTest import UnitTest
 from unittest import main
 
 if __name__ == '__main__':

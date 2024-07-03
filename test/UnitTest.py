@@ -1,7 +1,7 @@
 from sudoku.classes.config.SudokuConfig import SudokuConfig
 from sudoku.classes.loader.SudokuLoader import SudokuLoader
 
-from sudoku.tests_package.framework.ConfigFrame import ConfigFrame
+from sudoku.test_package.framework.ConfigFrame import ConfigFrame
 
 import unittest
 import os
@@ -15,4 +15,4 @@ class UnitTest(ConfigFrame, unittest.TestCase):
             'cuda'
         )
 
-   
+
