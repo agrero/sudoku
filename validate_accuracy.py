@@ -9,18 +9,20 @@ from torch.utils.data import DataLoader
 
 import os
 
-data_path = os.path.join('data', 'test')
+data_path = os.path.join('data', 'puzzles')
+model_path = os.path.join('data', 'models', 'model_current.pt')
+
 xtrain, xtest, ytrain, ytest = SudokuLoader(
-    x_path=os.path.join(data_path, 'test_data.parquet'),
-    y_path=os.path.join(data_path, 'test_solutions.parquet')
-).xy_parquet()
+    x_path=os.path.join(data_path, 'puzzles_3m.parquet'),
+    y_path=os.path.join(data_path, 'solutions_3m.parquet')
+).xy_parquet(split=True, exclude_to=2_000_000)
 
 train_data = DataLoader(
     SudokuDataset(
         xtest.to_numpy(),
         ytest.to_numpy()
     ),
-    batch_size=3
+    batch_size=500
 )
 
 device = ('cuda' if cuda.is_available() else 'cpu')
@@ -30,7 +32,7 @@ model = ConvNN(
     enc_sizes=[1, *[512 for i in range(15)]]
 ).to(device)
 model.load_state_dict(
-    torch.load(os.path.join('data', 'models', 'model_current.pt'))
+    torch.load(model_path)
 )
 
 evaluator = Evaluator()

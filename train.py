@@ -61,7 +61,7 @@ loss_fn = CrossEntropyLoss().to(device)
 optimizer = Adam(model.parameters(), lr=1e-2)
 trainer = Trainer()
 
-epochs = 1
+epochs = 10
 for t in range(epochs):
     print(f'Epoch {t+1}\n-----------')
     trainer.train_norm(

@@ -20,3 +20,5 @@ class Trainer:
 
             loss, current = loss.item(), (batch+1) * len(X)
             print(f'loss: {loss:>7f} [{current:<5d}/{len(dataloader.dataset):>5d}]')
+    
+    

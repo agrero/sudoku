@@ -73,8 +73,9 @@ class Evaluator:
             acc += self.board_check(
                 X = torch.argmax(model(X), dim=2),
                 y = torch.argmax(y, dim=2)
-            ).sum() / X.size(0)    
+            ).sum() / X.size(0)  
 
+            print(f'Progress: [{batch*len(X):<5d}/{len(dataloader.dataset):>5d}]')
         acc /= 81 * (batch + 1)
 
         print(f'Accuracy: {acc.item():0f}')
