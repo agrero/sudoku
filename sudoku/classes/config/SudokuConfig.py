@@ -2,9 +2,14 @@ from configparser import ConfigParser
 import os
 
 class SudokuConfig(ConfigParser):
-    def __init__(self, config_path) -> None:
+    def __init__(self, **kwargs) -> None:
         super().__init__()
-        self.config_path = config_path
+        for key, value in kwargs.items():
+            setattr(self, key, value)
+
+        # changing this to **kwargs setattr()
+        # more orthogonal
+        # self.config_path = config_path
 
     # how config is going to work
     # # 1) read config will 
@@ -49,21 +54,10 @@ class SudokuConfig(ConfigParser):
         with open(write_path, 'w') as configfile:
             self.write(configfile)
 
+# make a list of every configuration thing possible in the tests file
+# make 2 versions
+# one for testing one for non testing
+# use __setattr__(self, att, val) to use it through #
     
 
 
-config_path = os.path.join('configs', 'config.ini')
-test_dict = {
-    'test_key1' : 'testvalue1',
-    'test_key2' : 'testvalue2'
-}
-addi = {
-    'additional_key' : 'additionalvalue'
-}
-config = SudokuConfig(config_path)
-
-config = SudokuConfig('test.ini')
-config.read_config(verbose=True)
-config.append_item(additional = addi)
-print('round2')
-config.read_config(verbose=True)
