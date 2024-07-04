@@ -19,6 +19,8 @@ class Trainer:
             optimizer.step()
 
             loss, current = loss.item(), (batch+1) * len(X)
+            
+            # turn this into a decorator
             print(f'loss: {loss:>7f} [{current:<5d}/{len(dataloader.dataset):>5d}]')
     
     

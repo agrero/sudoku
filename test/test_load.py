@@ -9,7 +9,7 @@ from torch.utils.data import DataLoader
 
 import torch.nn as nn
 
-from sudoku.classes.loader.SudokuDataset import SudokuDataset
+from sudoku.classes.load.SudokuDataset import SudokuDataset
 from sudoku.classes.nn.ConvNN import ConvNN
 
 from collections import Counter
@@ -50,7 +50,7 @@ class TestLoad(unittest.TestCase):
         )
         cls.model_count = [count for count in cls.model_count.values()]
         cls.model_countlabel = [1, 16, 15, 17, 2, 1]
-        
+
     @classmethod
     def tearDownClass(cls) -> None:
         print(f'\nFINISHED: {cls.__module__}\n')

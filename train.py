@@ -7,7 +7,7 @@ from torch.utils.data import DataLoader
 from torch.nn import CrossEntropyLoss
 from torch.optim import Adam
 
-from sudoku.classes.loader.SudokuDataset import SudokuDataset
+from sudoku.classes.load.SudokuDataset import SudokuDataset
 from sudoku.classes.nn.ConvNN import ConvNN
 from sudoku.classes.nn.Trainer import Trainer
 

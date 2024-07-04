@@ -9,8 +9,6 @@ import torch
 # # this should use the forward function
 # # 
 class Evaluator:
-    def __init__(self):
-        pass
 
     @torch.no_grad()
     def confusion_matrix(self, dataloader, model, device='cuda'):

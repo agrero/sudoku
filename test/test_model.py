@@ -1,16 +1,16 @@
+import os
 import unittest
-from sudoku.classes.nn.ConvNN import ConvNN
-from sudoku.classes.loader.SudokuDataset import SudokuDataset
-from sudoku.classes.nn.Trainer import Trainer
-from sudoku.classes.labels.LabelEncoder import LabelEncoder
+import pandas as pd
 
 import torch
 from torch.utils.data import DataLoader
 from torch.nn import CrossEntropyLoss
 from torch.optim import Adam
 
-import os
-import pandas as pd
+from sudoku.classes.nn.ConvNN import ConvNN
+from sudoku.classes.load.SudokuDataset import SudokuDataset
+from sudoku.classes.nn.Trainer import Trainer
+from sudoku.classes.labels.LabelEncoder import LabelEncoder
 
 class TestModel(unittest.TestCase):
 
@@ -69,3 +69,5 @@ class TestModel(unittest.TestCase):
             (810, 9)
         )       
         
+    def test_solvebyparts(self):
+        pass
