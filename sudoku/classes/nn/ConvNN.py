@@ -4,7 +4,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 class ConvNN(nn.Module):
-    def __init__(self, enc_sizes):
+    def __init__(self, enc_sizes=[1, *[512 for i in range(15)]]):
         super().__init__()
         
         self.conv2d = nn.Sequential(*[self.conv_block(in_f, out_f)
