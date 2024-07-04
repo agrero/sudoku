@@ -20,11 +20,11 @@ class MlSolver(Evaluator):
         self.average = self.check_sum / self.iteration + 1.0
         self.accuracies = []
 
-    def solve_by_parts(self, model, data):
+    def solve_by_parts(self, model, dataloader):
 
         model.eval()
 
-        for batch, (X, y) in enumerate(data):
+        for batch, (X, y) in enumerate(dataloader):
             print(f'batch: {batch}')
             self.reset()
 
