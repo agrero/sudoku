@@ -18,6 +18,7 @@ class MlSolver(Evaluator):
         self.device = device
         self.check_sum = torch.zeros(1).to(self.device)
         self.average = self.check_sum / self.iteration + 1.0
+        self.lag = 5
         self.accuracies = []
 
     def solve_by_parts(self, model, dataloader):
@@ -44,7 +45,7 @@ class MlSolver(Evaluator):
                 guessing = self.evaluate_stuckness(
                     average=self.check_sum/self.iteration,
                     current=check.sum(),
-                    lag=5,
+                    lag=self.lag,
                     avg_buffer=3.0,
                     iteration=self.iteration
                 )
