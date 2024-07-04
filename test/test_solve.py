@@ -3,8 +3,7 @@ import unittest
 
 import torch
 
-from sudoku import *
-from ..sudoku.classes.
+from sudoku.classes.solver.MlSolver import MlSolver
 
 # from sudoku.classes.solver.MlSolver import MlSolver
 
