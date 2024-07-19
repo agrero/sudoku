@@ -1,4 +1,4 @@
-
+import json
 
 class Board:
     def __init__(self) -> None:
@@ -39,6 +39,28 @@ class Board:
 
     def flatten_board(self):
         return sum(self.board, [])
+    
+    def to_dict(self):
+        return {ndx:i for (ndx, i) in enumerate(self.flatten_board())}
+    
+    def from_dict(self, dictionary:dict):
+        sudoku = [[0 for i in range(9)] for j in range(9)]
+        count = 0
+        for key, value in dictionary.items():
+            sudoku[int(key) // 9][count] = value
+            count += 1
+            if count == 9:
+                count = 0
+        return sudoku
+    
+    def read_json(self, path):
+        
+        f = open(path)
+        data = json.load(f)
+        f.close()
+        return data
+
+    
     
     def __repr__(self) -> str:
         return f'{self.board}'
