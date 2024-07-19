@@ -13,7 +13,7 @@ app = FastAPI()
 async def pong():
     return {"ping": "pong!"}
 
-@app.post("/predict", status_code=200)
+@app.post("/bt_predict", status_code=200)
 def get_prediction(payload: SudokuIn):
 
     solv = Solver(Board=None)
