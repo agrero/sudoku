@@ -1,13 +1,34 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 
 from sudoku.api.pydantic_models import *
 from sudoku.classes.solver.Solver import Solver
 
 import json
 
+# I think this should go like 
+# method 1: acts as a wrapper for method 2
+# /predict
+
+# method 2: does the actual prediction
+# -> /predict/{model}
+
 app = FastAPI()
 
 # routes
+
+origins = [
+    'http://localhost:3000',
+    'localhost:3000'
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
 
 @app.get("/ping")
 async def pong():
@@ -30,4 +51,4 @@ def get_prediction(payload: SudokuIn):
 if __name__ == '__main__':
     import uvicorn
 
-    uvicorn.run(app, host='0.0.0.0', port = 8008, workers=1)
+    uvicorn.run(app, port = 8000)
