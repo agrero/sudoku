@@ -4,7 +4,7 @@ import discord
 
 from dotenv import load_dotenv
 
-from frontend.discord.DiscordClient import *
+from frontend.discord.DiscordClient import CustomClient
 
 # ah what another good looking candidate for some data validation 
 # using pydantic models
@@ -15,9 +15,6 @@ API_URL = os.getenv('URL_ROOT')
 
 intents = discord.Intents.default()
 intents.message_content = True
-
-
-# await message.channel.send('hello') # send message
 
 client = CustomClient(intents=intents)
 

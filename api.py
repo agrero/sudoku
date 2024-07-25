@@ -1,10 +1,10 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
-from sudoku.api.pydantic_models import *
+from sudoku.api.pydantic.models import *
 from sudoku.classes.solver.Solver import Solver
 
-from frontend.discord.disc import CommandIn
+from  import CommandIn
 # I think this should go like 
 # method 1: acts as a wrapper for method 2
 # /predict
@@ -34,8 +34,6 @@ app.add_middleware(
 async def pong():
     return {"ping": "pong!"}
 
-class CommandOut(BaseModel):
-    command: str = 'solve'
 
 #response model/class doesnt seem to want to work
 # will need to fix later
