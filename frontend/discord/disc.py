@@ -1,15 +1,13 @@
 # bot.py
 import os
 import discord
-import requests
 
 from dotenv import load_dotenv
 
-from fastapi.encoders import jsonable_encoder
+from frontend.discord.DiscordClient import *
 
-from sudoku.api.pydantic.models import CommandIn
-
-
+# ah what another good looking candidate for some data validation 
+# using pydantic models
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_ROOT')
@@ -18,46 +16,6 @@ API_URL = os.getenv('URL_ROOT')
 intents = discord.Intents.default()
 intents.message_content = True
 
-
-
-class CustomClient(discord.Client):
-    """
-    Docstrings Here
-    
-    $h: Discord Bot Command Prompt
-    """
-    async def on_ready(self):
-        for guild in self.guilds:
-            if guild.name == GUILD:
-                break
-        print(f'{self.user} has connected to Discord!')
-        print(f'{guild.name} (id: {guild.id})')
-
-        members = '\n - '.join([member.name for member in guild.members])
-        print(f'Guild Members:\n - {members}')
-
-    # this should come from an inherited message handler object
-    async def on_message(self, message, url=API_URL):
-        # this could be a wrapper 
-        if message.author == client.user:
-            return
-        
-        if message.content.startswith('$h'):
-            commands = [i for i in message.content[2:].split(' ') if i != '']
-            commandin = CommandIn(
-                    commands = commands,
-                    user = message.author.name,
-                    message_id = message.id,
-                    guild_id = message.guild.id,
-                )
-
-            post = requests.post(
-                url=f'{url}/test',
-                json=jsonable_encoder(commandin),
-                headers={'Content-Type':'application/json'}
-            )
-
-            await message.channel.send(post.json()) # send message
 
 # await message.channel.send('hello') # send message
 
