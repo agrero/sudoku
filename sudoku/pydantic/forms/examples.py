@@ -17,7 +17,7 @@ examples_SudokuOut = [{
         "board": jsonable_encoder(Board()), 
         "valid" : True,
         "sudokuin" : {
-            "board": jsonable_encoder(Board()), 
+            "board" : jsonable_encoder(Board()), 
             "model" : "model name",
             "search" : True
         }

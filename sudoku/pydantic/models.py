@@ -4,8 +4,15 @@ from sudoku.pydantic.forms.examples import *
 
 
 class SudokuIn(BaseModel):
+    """Sudoku Input Model
+    board: json-encoded Board class
+    model: prediction model
+        choices are: ['backtrack','CNN']
+    search: whether or not you want to parse 
+        the database for if this was previously 
+        answered"""
     board: dict # board object dump
-    model: str | None
+    model: str | None # if we change this to list we can do multiple preds at a time
     search: bool | None 
     # standardize later
     model_config = {
@@ -15,6 +22,14 @@ class SudokuIn(BaseModel):
     }
 
 class SudokuOut(BaseModel):
+    """
+    Sudoku Output Model
+
+    board: json-encoded Board class
+    valid: the solvability of the Sudoku Puzzle
+    sudokuin: pydantic SudokuIn class, typically
+        just returning the initial input
+    """
     board: dict # board object dump
     valid: bool
     sudokuin: SudokuIn
