@@ -5,6 +5,9 @@ from pydantic import BaseModel
 from typing import List, Optional
 from uuid import UUID, uuid4
 
+
+
+
 # remodel 
 
 # These are our connections to the frontend
@@ -28,10 +31,10 @@ app.add_middleware(
 tasks = []
 
 class Task(BaseModel):
-    id: Optional[UUID] = None         # Optional 
-    title: str                        # Mandatory
-    description: Optional[str] = None # Optional
-    completed: bool = False           # Mandatory
+    id: Optional[UUID] = None         # Optional, default value
+    title: str                        # Mandatory, no default value
+    description: Optional[str] = None # Optional, default value
+    completed: bool = False           # Mandatory, default value
 
 # ok for these to go to the same endpoint 
 # so long as they are returning different tasks
