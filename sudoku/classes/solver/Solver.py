@@ -1,4 +1,4 @@
-from sudoku.classes.Board import Board
+from sudoku.classes.game.Board import Board
 
 class Solver(Board):
 

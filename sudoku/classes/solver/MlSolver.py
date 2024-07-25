@@ -1,7 +1,7 @@
 from sudoku.classes.nn.ConvNN import ConvNN
 from sudoku.classes.load.SudokuLoader import SudokuLoader
 from sudoku.classes.load.SudokuDataset import SudokuDataset
-from sudoku.classes.Evaluator import Evaluator
+from sudoku.classes.nn.Evaluator import Evaluator
 
 import torch
 from torch import cuda

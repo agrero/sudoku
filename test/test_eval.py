@@ -6,7 +6,7 @@ import torch
 from torch.utils.data import DataLoader
 
 from sudoku.classes.nn.ConvNN import ConvNN
-from sudoku.classes.Evaluator import Evaluator
+from sudoku.classes.nn.Evaluator import Evaluator
 from sudoku.classes.load.SudokuDataset import SudokuDataset
 
 
