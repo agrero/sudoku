@@ -1,10 +1,9 @@
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
 
-from sudoku.api.pydantic.models import *
+from sudoku.pydantic.models import *
 from sudoku.classes.solver.Solver import Solver
 
-from sudoku.api.pydantic.models import CommandIn
+from sudoku.pydantic.models import CommandIn
 
 app = FastAPI()
 

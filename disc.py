@@ -21,16 +21,3 @@ client = CustomClient(intents=intents)
 if __name__ == '__main__':
     client.run(TOKEN)
 
-# #{
-#     "item": {
-#         "name": "Foo",
-#         "description": "The pretender",
-#         "price": 42.0,
-#         "tax": 3.2
-#     },
-#     "user": {
-#         "username": "dave",
-#         "full_name": "Dave Grohl"
-#     },
-#     "importance": 5
-# }
