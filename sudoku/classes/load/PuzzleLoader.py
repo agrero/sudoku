@@ -1,8 +1,6 @@
 import pandas as pd
-import os
-import numpy as np
 
-from helper import conv_framelist
+from sudoku.helper.helper import conv_framelist
 
 class PuzzleLoader:
     def __init__(self, puzzle_path='') -> None:

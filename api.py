@@ -1,33 +1,12 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from sudoku.api.pydantic.models import *
 from sudoku.classes.solver.Solver import Solver
 
-from  import CommandIn
-# I think this should go like 
-# method 1: acts as a wrapper for method 2
-# /predict
-
-# method 2: does the actual prediction
-# -> /predict/{model}
+from sudoku.api.pydantic.models import CommandIn
 
 app = FastAPI()
-
-# routes
-
-origins = [
-    'http://localhost:3000',
-    'localhost:3000'
-]
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"]
-)
 
 # routes
 @app.get("/ping")

@@ -4,7 +4,7 @@ import requests
 from fastapi.encoders import jsonable_encoder
 
 from sudoku.api.pydantic.models import CommandIn
-from sudoku.api_helper import get_command
+from sudoku.helper.api_helper import get_command
 
 
 class CustomClient(discord.Client):
@@ -18,7 +18,7 @@ class CustomClient(discord.Client):
 
     # this should come from an inherited message handler object
     async def on_message(self, message, url='http://0.0.0.0:8000'):
-        
+
         # this could be a wrapper 
         # Listener().command_listen()
         # if command line start:
