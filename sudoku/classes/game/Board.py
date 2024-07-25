@@ -2,7 +2,9 @@ import json
 
 class Board:
     def __init__(self) -> None:
-        self.board = []
+        self.board = [[0 for i in range(9)] for j in range(9)]
+        # awk
+        self.solvemask = self.get_solvemask()
 
     def is_valid(self, row, col, num):
         # Check the row
@@ -24,36 +26,24 @@ class Board:
 
         return True
     
-    def format_kaggle(self):
-        pass
-
     def set_tile(self, no, x, y):
         self.board[x][y] = no
 
     def get_solvemask(self):
-        return [[1 if j != 0  else 0 for j in i] for i in self.board]
-
+        try:
+            return [[1 if j != 0  else 0 for j in i] for i in self.board]
+        except:
+            print('Unknown Error: Setting solvemask to an empty list!')
+            return []
+        
     def pretty_rep(self):
         for i in self.board:
             print(i)
 
     def flatten_board(self):
         return sum(self.board, [])
-    
-    def to_dict(self):
-        return {ndx:i for (ndx, i) in enumerate(self.flatten_board())}
-    
-    def from_dict(self, dictionary:dict):
-        sudoku = [[0 for i in range(9)] for j in range(9)]
-        count = 0
-        for key, value in dictionary.items():
-            sudoku[int(key) // 9][count] = value
-            count += 1
-            if count == 9:
-                count = 0
-        return sudoku
-    
-    def read_json(self, path):
+
+    def _read_json(self, path):
         
         f = open(path)
         data = json.load(f)

@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from sudoku.pydantic.models import *
 from sudoku.classes.solver.Solver import Solver
 
-from sudoku.pydantic.models import CommandIn
+from sudoku.pydantic.models import CommandIn, CommandOut
 
 app = FastAPI()
 
@@ -15,24 +15,25 @@ async def pong():
 
 #response model/class doesnt seem to want to work
 # will need to fix later
-@app.post('/test', status_code=200)
+@app.post('/test', response_model=CommandOut, status_code=200)
 async def test(payload: CommandIn):
 
-    return payload.commands
+    return CommandOut(
+        com_return={ndx:i for ndx,i in enumerate(payload.commands)},
+        com_in=payload # should set the input dict to kwargs
+    )
 
-@app.post("/bt_predict", status_code=200)
-def get_prediction(payload: SudokuIn):
+@app.post("/bt_predict", response_model=SudokuOut,status_code=200)
+def get_prediction(sudoku: SudokuIn):
 
     solv = Solver(Board=None)
-    solv.board = solv.from_dict(
-        payload.sudokuin
-        )
-    solv.solve_sudoku(solv.board)
-    
-    out = SudokuOut()
-    out.sudokuout = solv.to_dict()
+    solv.solve_sudoku(sudoku.board)
 
-    return out
+    return SudokuOut(
+        board=solv.board,
+        valid=sum(solv.flatten_board()) == 405, # if solved should equal 405,
+        sudokuin=sudoku
+    )
 
 if __name__ == '__main__':
     import uvicorn
