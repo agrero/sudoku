@@ -13,3 +13,9 @@ class SudokuOut:
     sudokuout: dict
     model: Optional[str]
     completed: bool
+
+class CommandIn(BaseModel):
+    commands: list[str] 
+    user: str
+    message_id: int
+    guild_id: int

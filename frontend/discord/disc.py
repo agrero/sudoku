@@ -1,29 +1,24 @@
 # bot.py
 import os
-
 import discord
+import requests
+
 from dotenv import load_dotenv
 
 from fastapi.encoders import jsonable_encoder
 
-from pydantic import BaseModel
-
-import requests
+from sudoku.api.pydantic.models import CommandIn
 
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
-GUILD = os.getenv('DISCORD_GUILD')
+GUILD = os.getenv('DISCORD_ROOT')
+API_URL = os.getenv('URL_ROOT')
 
 intents = discord.Intents.default()
 intents.message_content = True
 
 
-class CommandIn(BaseModel):
-    commands: list[str] 
-    user: str
-    message_id: int
-    guild_id: int
 
 class CustomClient(discord.Client):
     """
@@ -42,7 +37,7 @@ class CustomClient(discord.Client):
         print(f'Guild Members:\n - {members}')
 
     # this should come from an inherited message handler object
-    async def on_message(self, message, url='http://0.0.0.0:8000'):
+    async def on_message(self, message, url=API_URL):
         # this could be a wrapper 
         if message.author == client.user:
             return
