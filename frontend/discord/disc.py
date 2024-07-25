@@ -7,7 +7,6 @@ from dotenv import load_dotenv
 from fastapi.encoders import jsonable_encoder
 
 from pydantic import BaseModel
-from typing import List, Optional
 
 import requests
 
