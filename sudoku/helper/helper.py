@@ -29,7 +29,9 @@ def conv_framelist(df:pd.DataFrame, colndx:int = 0, conv:bool=False, batch_size:
 
         print('saving chunk')
 
-        data.to_parquet(os.path.join('data', 'puzzles', f'puzzle-{i:07}.parquet'))
+        data.to_parquet(
+            os.path.join('data', 'puzzles', f'puzzle-{i:07}.parquet')
+            )
 
 def generate_dumby_data():
     # this is wrong change!
