@@ -42,10 +42,5 @@ def generate_dumby_data():
         [[j for i in range(81)] for j in range(10)]
     )
 
-def reshape_2d(data:pd.DataFrame) -> np.array:
-    """reshapes linear sudoku into 2d for convolution"""
-    exp = np.expand_dims(
-        data.to_numpy(), 
-        axis=0
-    )
-    return exp.reshape(-1, 9, 9)
+def to_matrix(l, n):
+    return [l[i:i+n] for i in range(0, len(l), n)]

@@ -2,15 +2,27 @@ from pydantic import BaseModel
 from sudoku.pydantic.forms.examples import *
 
 
+class CommandIn(BaseModel):
+    commands: list[str] 
+    user: str
+    message_id: int
+    guild_id: int
+
+class CommandOut(BaseModel):
+    com_return: dict
+    com_in: CommandIn | None = None # return the commands input
+
+
 
 class SudokuIn(BaseModel):
     """Sudoku Input Model
-    board: json-encoded Board class
-    model: prediction model
-        choices are: ['backtrack','CNN']
+    board: json-encoded Board class \
+    model: prediction model 
+        choices are: ['backtrack','CNN'] \
     search: whether or not you want to parse 
         the database for if this was previously 
-        answered"""
+        answered \
+        """
     board: dict # board object dump
     model: str | None # if we change this to list we can do multiple preds at a time
     search: bool | None 
@@ -30,9 +42,9 @@ class SudokuOut(BaseModel):
     sudokuin: pydantic SudokuIn class, typically
         just returning the initial input
     """
-    board: dict # board object dump
+    solved_board: list # board object dump
     valid: bool
-    sudokuin: SudokuIn
+    commandsin: CommandIn
 
     # standardize later
     model_config = {
@@ -40,14 +52,3 @@ class SudokuOut(BaseModel):
             "examples": examples_SudokuOut
         }
     }
-
-class CommandIn(BaseModel):
-    commands: list[str] 
-    user: str
-    message_id: int
-    guild_id: int
-
-class CommandOut(BaseModel):
-    com_return: dict
-    com_in: CommandIn | None = None # return the commands input
-

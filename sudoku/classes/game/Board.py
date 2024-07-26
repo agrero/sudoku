@@ -37,9 +37,8 @@ class Board:
             return []
         
     def pretty_rep(self):
-        for i in self.board:
-            print(i)
-
+        return '\n'.join([''.join(str(i)) for i in self.board])
+    
     def flatten_board(self):
         return sum(self.board, [])
 
@@ -50,8 +49,6 @@ class Board:
         f.close()
         return data
 
-    
-    
     def __repr__(self) -> str:
         return f'{self.board}'
     
