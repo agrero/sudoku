@@ -4,9 +4,8 @@ from sqlalchemy.orm import sessionmaker
 
 import os
 
+DATABASE_PATH = os.path.join("data", "database", "user_database.db")
 
-
-DATABASE_PATH = os.getenv("")
 SQLALCHEMY_DATABASE_URL = f"sqlite:///{DATABASE_PATH}"
 # SQLALCHEMY_DATABASE_URL = "postgresql://user:password@postgresserver/db"
 
