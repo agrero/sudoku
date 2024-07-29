@@ -3,6 +3,8 @@ from sudoku.pydantic.forms.examples import *
 
 
 class CommandIn(BaseModel):
+    # theoretically we could make our own allowed string class
+    # to make commands: list[AllowedStr]
     commands: list[str] 
     user: str
     message_id: int
@@ -11,7 +13,6 @@ class CommandIn(BaseModel):
 class CommandOut(BaseModel):
     com_return: dict
     com_in: CommandIn | None = None # return the commands input
-
 
 
 class SudokuIn(BaseModel):
@@ -26,6 +27,7 @@ class SudokuIn(BaseModel):
     board: dict # board object dump
     model: str | None # if we change this to list we can do multiple preds at a time
     search: bool | None 
+    
     # standardize later
     model_config = {
         "json_schema_extra": {
