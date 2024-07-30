@@ -4,6 +4,7 @@ from sqlalchemy.orm import sessionmaker
 
 import os
 
+# NO TOUCHY
 DATABASE_PATH = os.path.join("data", "database", "user_database.db")
 
 SQLALCHEMY_DATABASE_URL = f"sqlite:///{DATABASE_PATH}"

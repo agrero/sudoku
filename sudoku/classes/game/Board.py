@@ -1,8 +1,10 @@
 import json
 
 class Board:
-    def __init__(self) -> None:
-        self.board = [[0 for i in range(9)] for j in range(9)]
+    def __init__(
+            self, board=[[0 for i in range(9)] for j in range(9)]
+            ) -> None:
+        self.board = board
         # awk
         self.solvemask = self.get_solvemask()
 
