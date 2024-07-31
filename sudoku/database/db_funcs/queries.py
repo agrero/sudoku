@@ -37,3 +37,12 @@ def get_puzzles(db: Session, skip: int = 0, limit: int = 100):
         models.Puzzle
     ).offset(skip).limit(limit).all()
 
+def get_keys(db: Session, skip: int = 0, limit:int = 100):
+    return db.query(
+        models.Keys
+    ).offset(skip).limit(limit).all()
+
+def get_key(db: Session, user_id: int):
+    return db.query(
+        models.Keys
+    ).filter(models.Keys.owner_id == user_id).first()

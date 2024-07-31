@@ -1,10 +1,4 @@
 import discord
-# import requests
-
-# from fastapi.encoders import jsonable_encoder
-
-# from sudoku.pydantic.models import CommandIn
-# # from sudoku.helper.api_helper import get_command
 
 from frontend.discord.children.ClientHandler import ClientHandler
 
@@ -24,13 +18,14 @@ class CustomClient(discord.Client):
     # this should come from an inherited message handler object
 
     async def on_message(self, message, 
-                         url='http://0.0.0.0:8008', 
+                         url='http://0.0.0.0:8000', 
                          handler=ClientHandler()):
         
         if message.author == self.user:
             return
 
         if message.content.startswith('$s'):
-
-            await handler.get_boardstate(message, url)
+            
+            response = await handler.get_boardstate(message, url)
+            await message.channel.send(response.json()['puzzle'])
 

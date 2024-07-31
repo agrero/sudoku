@@ -4,16 +4,19 @@ from sudoku.database.db_funcs import queries
 
 from sudoku import schemas
 
+from sudoku.schemas import database
+
 from .. import models
 
 # technically create not update
 def create_user(
         db: Session, 
-        user: schemas.database.UserCreate):
+        user: database.UserCreate
+    ):
     db_user = models.User(
         username = user.username,
         discord_id = user.discord_id 
-        )
+    )
     
     db.add(db_user)
     db.commit()

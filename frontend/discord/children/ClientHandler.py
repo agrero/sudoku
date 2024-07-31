@@ -10,6 +10,11 @@ from sudoku.classes.game.Board import Board
 # MANIUPLATIONS SHOULD HAPPEN NOT HERE
 # ALSO TRY AND SLIM THIS DOWN AND MAKE IT PART OF THE CUSTOMCLIENT
 class ClientHandler:
+    def __init__(self) -> None:
+
+        # GET api calls
+        self.get_methods = ['get_keys', 'puzzle', 'bt_predict']
+        self.post_methods = ['set_tile', 'make_keys']
 
     async def get_boardstate(self, message, url:str) -> requests.Response:
         """
@@ -22,20 +27,37 @@ class ClientHandler:
 
         returns: requests.Response
         """
-
         commands = get_command(message.content[2:])
-        post = requests.post(
-            url=f'{url}/{'/'.join(commands)}', #URL should unwrap all commands
-            headers={'Content-Type':'application/json'},
-            json=jsonable_encoder(
-                CommandIn(
-                    commands=commands,
-                    user=message.author.name,
-                    message_id=message.id,
-                    guild_id=message.guild.id
-            )))
         
-        return post
+        if commands[0] in self.get_methods:
+            post = requests.get(
+                url=f'{url}/{'/'.join(commands)}', #URL should unwrap all commands
+                headers={'Content-Type':'application/json'},
+                json=jsonable_encoder(
+                    CommandIn(
+                        commands=commands,
+                        user=message.author.name,
+                        user_id=message.author.id,
+                        message_id=message.id,
+                        guild_id=message.guild.id
+                )))
+            return post
+
+        elif commands[0] in self.post_methods:
+            post = requests.post(
+                url=f'{url}/{'/'.join(commands)}', #URL should unwrap all commands
+                headers={'Content-Type':'application/json'},
+                json=jsonable_encoder(
+                    CommandIn(
+                        commands=commands,
+                        user=message.author.name,
+                        user_id=message.author.id,
+                        message_id=message.id,
+                        guild_id=message.guild.id
+                )))
+            
+            return post
+        
 
     async def send_board(self, message, url:str):
         
