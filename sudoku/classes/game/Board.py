@@ -1,6 +1,11 @@
 import json
+from sudoku.helper.helper import to_matrix
+
 
 class Board:
+    """I'm going to make a design choice here and say
+    that the board attribute should be 2d and manipulations
+    should be returned"""
     def __init__(
             self, board=[[0 for i in range(9)] for j in range(9)]
             ) -> None:
@@ -50,6 +55,20 @@ class Board:
         data = json.load(f)
         f.close()
         return data
+    
+    def to_str(self):
+        """Assumes board is in 2d"""
+        bad = [',','[',']']
+        return ''.join(
+            [i for i in self.flatten_board(self.board)
+            if i not in bad]
+            )
+    
+    def from_str(self, string:str):
+        self.board = to_matrix(
+            [int(i) for i in string],
+            9
+        )
 
     def __repr__(self) -> str:
         return f'{self.board}'
