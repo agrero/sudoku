@@ -66,8 +66,7 @@ class Board:
     
     def from_str(self, string:str):
         self.board = to_matrix(
-            [int(i) for i in string],
-            9
+            [int(i) for i in string], n=9
         )
 
     def __repr__(self) -> str:

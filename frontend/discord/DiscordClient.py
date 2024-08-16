@@ -25,7 +25,7 @@ class CustomClient(discord.Client):
             return
 
         if message.content.startswith('$s'):
-            
             response = await handler.get_boardstate(message, url)
+            print(response)
             await message.channel.send(response.json()['puzzle'])
 

@@ -10,7 +10,7 @@ from sudoku import schemas as schema
 # from sudoku import schemas as sch
 # sch.api.CommandIn
 from sudoku.schemas.api import CommandIn, CommandOut
-from sudoku.schemas.database import PuzBase, UserBase
+from sudoku.schemas.database import PuzBase, UserBase, User, UserCreate
 from sudoku.schemas.keys import KeyBase
 from sudoku.schemas.puzzle import SudokuOut
 
@@ -19,6 +19,7 @@ from sudoku.database.database import SessionLocal, engine
 from sudoku.database.db_funcs import queries, update
 
 from sudoku.classes.solver.Solver import Solver
+from sudoku.classes.game.Board import Board
 
 from sudoku.helper.helper import to_matrix
 
@@ -62,7 +63,8 @@ def get_prediction(commandsin: CommandIn):
 
     bad = [',','[',']']
     board = to_matrix(
-        [int(i) for i in list(commandsin.commands[1]) if i not in bad], 9
+        [int(i) for i in list(commandsin.commands[1]) 
+         if i not in bad], n=9
         )
 
     solv = Solver(Board=None)
@@ -133,12 +135,32 @@ def get_key(commandsin:CommandIn, db:Session=Depends(get_db)):
         )
     )
 
+
 @app.post("/make_keys/{number}", response_model=CommandOut)
 def create_user_keys(commandsin:CommandIn, number:int, db:Session=Depends(get_db)):
     """create user keys"""
 
     return CommandOut(
         com_return= {"key_status": True},
+        com_in=commandsin
+    )
+
+# need to add a get user check to make sure you're not making copies
+@app.post("/create_user", response_model=CommandOut)
+def create_user(commandsin:CommandIn, db:Session=Depends(get_db)):
+    """Create User"""
+
+    user = update.create_user(
+        db=db,
+        user=UserCreate(
+            username=commandsin.user,
+            discord_id=commandsin.user_id,
+            puzzle=''.join(['0' for i in range(81)]), # init with flat 0 string
+        )
+    )
+
+    return CommandOut(
+        com_return = {"user_created" : commandsin.user},
         com_in=commandsin
     )
 

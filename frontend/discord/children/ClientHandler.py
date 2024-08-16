@@ -14,7 +14,7 @@ class ClientHandler:
 
         # GET api calls
         self.get_methods = ['get_keys', 'puzzle', 'bt_predict']
-        self.post_methods = ['set_tile', 'make_keys']
+        self.post_methods = ['set_tile', 'make_keys', 'create_user']
 
     async def get_boardstate(self, message, url:str) -> requests.Response:
         """
