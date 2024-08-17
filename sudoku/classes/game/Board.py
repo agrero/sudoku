@@ -10,10 +10,13 @@ class Board:
             self, board=[[0 for i in range(9)] for j in range(9)]
             ) -> None:
         self.board = board
-        # awk
-        self.solvemask = self.get_solvemask()
 
-    def is_valid(self, row, col, num):
+    def is_valid(self, row, col, num) -> bool:
+        """
+        checks the validity of the current sudoku board
+        
+        returns: boolean
+        """
         # Check the row
         for i in range(9):
             if self.board[row][i] == num:
@@ -33,31 +36,55 @@ class Board:
 
         return True
     
-    def set_tile(self, no, x, y):
+    def set_tile(self, no:int, x:int, y:int) -> None:
+        """set tile for self.board
+        no: number to set tile to
+        x: row
+        y: column"""
         self.board[x][y] = no
 
-    def get_solvemask(self):
+    def get_solvemask(self) -> list:
+        """
+        converts self.board to binary
+        any non-zero tile converted to zero
+        returns: 2d sudoku board as a list of lists
+        """
         try:
-            return [[1 if j != 0  else 0 for j in i] for i in self.board]
+            return [[1 if j != 0  else 0 for j in i] 
+                    for i in self.board]
         except:
             print('Unknown Error: Setting solvemask to an empty list!')
             return []
         
-    def pretty_rep(self):
+    def pretty_rep(self) -> str:
+        """
+        Converts self.board to a formatted string 
+        for better readability
+        """
         return '\n'.join([''.join(str(i)) for i in self.board])
     
-    def flatten_board(self):
+    def flatten_board(self) -> list:
+        """
+        flattens self.board into a singular list of 81 items
+        
+        returns: 1d list of length 81
+        """
         return sum(self.board, [])
 
     def _read_json(self, path):
-        
+        """DEPRECATED
+        reads in json data and returns it
+        """
         f = open(path)
         data = json.load(f)
         f.close()
         return data
     
     def to_str(self):
-        """Assumes board is in 2d"""
+        """ I'm honestly lost to the usefullness of this
+        i have a vague recollection of adding it
+        
+        Converts board to a string"""
         bad = [',','[',']']
         return ''.join(
             [i for i in self.flatten_board(self.board)

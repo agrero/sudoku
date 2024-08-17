@@ -59,8 +59,17 @@ class ClientHandler:
             return post
         
 
-    async def send_board(self, message, url:str):
-        
+    async def send_board(self, message, url:str) -> None:
+        """
+        sends board state to discord utilizing get_boardstate
+        method.
+
+        message: a message in the form of an on_message discord 
+            response
+        url: api url
+
+        returns: None
+        """
         # post to get boardstate 
         post = self.get_boardstate(message=message, url=url)
         await message.channel.send(Board(

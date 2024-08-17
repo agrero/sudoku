@@ -10,6 +10,14 @@ from .. import models
 
 # technically create not update
 def create_user(db: Session, user: schemas.database.UserCreate):
+    """
+    creates a user utilizing the UserCreate schema as input
+
+    db: database session
+    user: database UserCreate schema
+
+    returns user 
+    """
     db_user = models.User(
         username = user.username,
         discord_id = user.discord_id,
