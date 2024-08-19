@@ -4,9 +4,9 @@ from sudoku.database.db_funcs import queries
 
 from sudoku import schemas
 
-from sudoku import schemas
-
 from .. import models
+
+from .keys import generate_keys
 
 # technically create not update
 def create_user(db: Session, user: schemas.database.UserCreate):
@@ -79,3 +79,9 @@ def update_puzzle_by_tile(
 
     return puzzle
 
+def update_keys(
+      db: Session, number: int 
+    ):
+    keys = generate_keys(number)
+
+    db.add

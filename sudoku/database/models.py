@@ -15,6 +15,7 @@ class User(Base):
     username = Column(String, unique=True, index=True)
     discord_id = Column(Integer, unique=True, index=True)
     puzzle = Column(String(length=81))
+    key = Column(Integer, unique=True)
 
     # user_puzzle = Column(String, ForeignKey("puzzles.puzzle"))
     # user_key = Column(String, unique=True)
